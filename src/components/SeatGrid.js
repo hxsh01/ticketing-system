@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const API = process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
+const API = process.env.APP_BACKEND_URL || "http://localhost:4000";
 
 export default function SeatGrid({ movieId, user }) {
   const [movie, setMovie] = useState(null);
