@@ -8,7 +8,7 @@ export default function SeatSelectionPage({ user }) {
   return (
     <div className="seat-selection-container">
       <div className="flex-center">
-        <h2>Select Your Seats</h2>
+        <h2>Select Your Seats, {user?.name || "Guest"}</h2>
       </div>
       <SeatGrid movieId={movieId} user={user} />
       <div className="legend">
