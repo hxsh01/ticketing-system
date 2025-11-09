@@ -81,15 +81,22 @@ export default function SeatGrid({ movieId, user }) {
       <div className="seat-grid">
         {movie.seats.map((s) => {
           const id = s._id;
-          const reserved = s.isReserved && s.reservedUntil && new Date(s.reservedUntil) > new Date();
-          const disabled = s.isBooked || (reserved && s.reservedBy && s.reservedBy !== user.id);
+          const isReserved = s.isReserved && s.reservedUntil && new Date(s.reservedUntil) > new Date();
+          
+          const isMine = isReserved && s.reservedBy === user.id;
+
+          const disabled = s.isBooked || (isReserved && !isMine);
+
           const bg = selected.includes(id)
-            ? "rgba(10, 159, 234, 1)"
+            ? "rgba(10, 159, 234, 1)" // currently selected
             : s.isBooked
-            ? "#777"
-            : reserved
-            ? "rgba(197, 128, 128, 1)"
-            : "rgba(166, 231, 146, 1)";
+            ? "#777" // booked
+            : isMine
+            ? "rgba(10, 159, 234, 1)" // reserved by me (pending)
+            : isReserved
+            ? "rgba(197, 128, 128, 1)" // reserved by others
+            : "rgba(166, 231, 146, 1)"; // available
+
 
           return (
             <button
