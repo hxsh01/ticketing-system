@@ -6,7 +6,7 @@ import HomePage from './pages/HomePage';
 import SeatSelectionPage from './pages/SeatSelectionPage';
 
 axios.defaults.withCredentials = true;
-const API = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+const API = process.env.APP_BACKEND_URL;
 
 export default function App() {
   const [user, setUser] = useState(null);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const API = process.env.APP_BACKEND_URL || 'http://localhost:4000';
+const API = process.env.APP_BACKEND_URL;
 
 export default function HomePage({ user, movies: initialMovies }) {
   const [movies, setMovies] = useState(initialMovies || []);

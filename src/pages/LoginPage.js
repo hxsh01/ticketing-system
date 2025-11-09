@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const API = process.env.APP_BACKEND_URL || 'http://localhost:4000';
+const API = process.env.APP_BACKEND_URL;
 
 export default function LoginPage({ onLogin }) {
   const [email, setEmail] = useState("");
