@@ -40,8 +40,6 @@ export default function SeatGrid({ movieId, user }) {
       // deselect expired seats from selection
       setSelected((prev) => prev.filter((id) => !data.seatIds.includes(id)));
 
-      // optional small UX improvement
-      console.log("Reservation expired for seats:", data.seatIds);
       alert("Oops! Your seat hold expired — seats are now available for others.");
     });
 
@@ -137,7 +135,7 @@ export default function SeatGrid({ movieId, user }) {
             : s.isBooked
             ? "#777" // booked
             : isMine
-            ? "rgba(10, 159, 234, 1)" // reserved by me
+            ? "rgba(10, 159, 234, 1)" // reserved by current user
             : isReserved
             ? "rgba(197, 128, 128, 1)" // reserved by others
             : "rgba(166, 231, 146, 1)"; // available
