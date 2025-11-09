@@ -47,10 +47,15 @@ input {
 
 .container {
   padding: 24px;
-  max-width: 900px;
   margin: auto;
 }
 
 .link-button:hover:not(:disabled) {
     background-color: transparent;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

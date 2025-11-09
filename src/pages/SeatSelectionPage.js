@@ -7,7 +7,9 @@ export default function SeatSelectionPage({ user }) {
 
   return (
     <div className="seat-selection-container">
-      <h2>Select Your Seats</h2>
+      <div className="flex-center">
+        <h2>Select Your Seats</h2>
+      </div>
       <SeatGrid movieId={movieId} user={user} />
       <div className="legend">
         <span><div style={{ width: 16, height: 16, background: 'rgba(166, 231, 146, 1)', borderRadius: 4 }}></div> Available</span>

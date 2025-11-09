@@ -49,7 +49,7 @@ export default function LoginPage({ onLogin }) {
           {mode === 'signup' ? (
             <button onClick={() => setMode('login')}>Already have an account? Log in</button>
           ) : (
-            <button class={"link-button"} onClick={() => setMode('signup')}>New user? Create account</button>
+            <button className={"link-button"} onClick={() => setMode('signup')}>New user? Create account</button>
           )}
         </div>
       </div>
