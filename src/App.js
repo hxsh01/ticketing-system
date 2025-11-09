@@ -6,14 +6,15 @@ import HomePage from './pages/HomePage';
 import SeatSelectionPage from './pages/SeatSelectionPage';
 
 axios.defaults.withCredentials = true;
-const API = process.env.APP_BACKEND_URL;
+const API = process.env.REACT_APP_BACKEND_URL;
+console.log("printing: API", API);
 
 export default function App() {
   const [user, setUser] = useState(null);
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    axios.get(API + '/api/movies')
+    axios.get(`${API}/api/movies`)
       .then(r => setMovies(r.data))
       .catch((err) => {console.error('Failed to fetch movies:', err)});
   }, []);

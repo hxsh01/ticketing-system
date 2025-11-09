@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const API = process.env.APP_BACKEND_URL;
+const API = process.env.REACT_APP_BACKEND_URL;
 
 export default function LoginPage({ onLogin }) {
   const [email, setEmail] = useState("");
@@ -17,13 +17,13 @@ export default function LoginPage({ onLogin }) {
       let res;
       if (mode === 'signup') {
         res = await axios.post(
-          API + '/api/auth/signup',
+          `${API}/api/auth/signup`,
           { name, email, password },
           { withCredentials: true }
         );
       } else {
         res = await axios.post(
-          API + '/api/auth/login',
+          `${API}/api/auth/login`,
           { email, password },
           { withCredentials: true }
         );

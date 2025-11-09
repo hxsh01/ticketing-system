@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const API = process.env.APP_BACKEND_URL;
+const API = process.env.REACT_APP_BACKEND_URL;
 
 export default function HomePage({ user, movies: initialMovies }) {
   const [movies, setMovies] = useState(initialMovies || []);
@@ -10,11 +10,11 @@ export default function HomePage({ user, movies: initialMovies }) {
   const navigate = useNavigate(); // <-- for programmatic navigation
 
   useEffect(() => {
-    axios.get(API + '/api/movies', { withCredentials: true })
+    axios.get(`${API}/api/movies`, { withCredentials: true })
       .then(r => setMovies(r.data))
       .catch(console.error);
 
-    axios.get(API + '/api/reservations/pending', { withCredentials: true })
+    axios.get(`${API}/api/reservations/pending`, { withCredentials: true })
       .then(r => setPending(r.data))
       .catch(() => {});
   }, []);
