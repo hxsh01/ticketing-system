@@ -8,7 +8,6 @@ const API = process.env.REACT_APP_BACKEND_URL;
 
 export default function App() {
   const [user, setUser] = useState(null);
-  const [movies, setMovies] = useState([]);
 
 
   return (
@@ -20,7 +19,7 @@ export default function App() {
         />
         <Route
           path="/"
-          element={user ? <HomePage user={user} movies={movies} /> : <Navigate to="/login" />}
+          element={user ? <HomePage user={user} /> : <Navigate to="/login" />}
         />
         <Route
           path="/seat-selection/:movieId"

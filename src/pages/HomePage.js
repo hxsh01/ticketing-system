@@ -5,8 +5,8 @@ import '../styles/HomePage.css';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
-export default function HomePage({ user, movies: initialMovies }) {
-  const [movies, setMovies] = useState(initialMovies || []);
+export default function HomePage({ user }) {
+  const [movies, setMovies] = useState([]);
   const [pending, setPending] = useState([]);
   const navigate = useNavigate();
 
