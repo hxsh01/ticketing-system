@@ -18,10 +18,25 @@ Users can reserve, book, and cancel seats in real time. Expired reservations aut
 
 - Debounced api calls for reserving seats to avoid too many calls to the backend
 
-### To run the project, use the following command:
+### To run the project, use the following commands:
 
+1. to install the dependencies:
+```bash
+npm i
+```
+or if you are using yarn :
+```bash
+yarn
+```
+
+2. to run the app:
 ```bash
 npm start
+```
+or 
+
+```bash
+yarn start
 ```
 
 The command runs the app in the development mode.\
