@@ -1,22 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import SeatSelectionPage from './pages/SeatSelectionPage';
 
-axios.defaults.withCredentials = true;
 const API = process.env.REACT_APP_BACKEND_URL;
 
 export default function App() {
   const [user, setUser] = useState(null);
   const [movies, setMovies] = useState([]);
 
-  useEffect(() => {
-    axios.get(`${API}/api/movies`)
-      .then(r => setMovies(r.data))
-      .catch((err) => {console.error('Failed to fetch movies:', err)});
-  }, []);
 
   return (
     <Router>
