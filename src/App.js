@@ -7,7 +7,6 @@ import SeatSelectionPage from './pages/SeatSelectionPage';
 
 axios.defaults.withCredentials = true;
 const API = process.env.REACT_APP_BACKEND_URL;
-console.log("printing: API", API);
 
 export default function App() {
   const [user, setUser] = useState(null);

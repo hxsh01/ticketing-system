@@ -1,14 +1,20 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import SeatGrid from '../components/SeatGrid';
+import '../styles/SeatSelectionPage.css';
 
 export default function SeatSelectionPage({ user }) {
   const { movieId } = useParams();
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Seat Selection</h2>
+    <div className="seat-selection-container">
+      <h2>Select Your Seats</h2>
       <SeatGrid movieId={movieId} user={user} />
+      <div className="legend">
+        <span><div style={{ width: 16, height: 16, background: 'rgba(166, 231, 146, 1)', borderRadius: 4 }}></div> Available</span>
+        <span><div style={{ width: 16, height: 16, background: 'rgba(197, 128, 128, 1)', borderRadius: 4 }}></div> Reserved</span>
+        <span><div style={{ width: 16, height: 16, background: '#777', borderRadius: 4 }}></div> Booked</span>
+        <span><div style={{ width: 16, height: 16, background: 'rgba(10, 159, 234, 1)', borderRadius: 4 }}></div> Selected</span>
+      </div>
     </div>
   );
 }

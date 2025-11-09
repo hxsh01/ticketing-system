@@ -1,0 +1,37 @@
+.seat-selection-container {
+  padding: 24px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.seat-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 48px);
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.seat {
+  height: 40px;
+  width: 40px;
+  border-radius: 8px;
+  transition: transform 0.1s ease, background 0.2s;
+}
+
+.seat:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.legend {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}

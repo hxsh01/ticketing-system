@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../styles/HomePage.css';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
 export default function HomePage({ user, movies: initialMovies }) {
   const [movies, setMovies] = useState(initialMovies || []);
   const [pending, setPending] = useState([]);
-  const navigate = useNavigate(); // <-- for programmatic navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`${API}/api/movies`, { withCredentials: true })
@@ -20,30 +21,31 @@ export default function HomePage({ user, movies: initialMovies }) {
   }, []);
 
   const resumeReservation = (reservation) => {
-    // Assuming reservation contains movieId
     navigate(`/seat-selection/${reservation.movieId}`);
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Welcome</h2>
+    <div className="container">
+      <div className="home-header">
+        <h2>Welcome, {user?.name || "Guest"}</h2>
+        <button onClick={() => navigate('/login')}>Logout</button>
+      </div>
 
       {pending.length > 0 && (
-        <div style={{ background: '#fffbdd', padding: 10 }}>
-          You have pending reservations. 
-          <button onClick={() => resumeReservation(pending[0])}>Resume</button>
+        <div className="pending-banner">
+          🎟️ You have {pending.length} pending reservation(s).{" "}
+          <button onClick={() => resumeReservation(pending[0])}>Resume Booking</button>
         </div>
       )}
 
-      <div style={{ marginTop: 10 }}>
-        <h3>Select a movie</h3>
-        <div style={{ display: 'flex', gap: 10 }}>
-          {movies.map(m => (
-            <button key={m._id} onClick={() => navigate(`/seat-selection/${m._id}`)}>
-              {m.title}
-            </button>
-          ))}
-        </div>
+      <h3>Available Movies</h3>
+      <div className="movie-list">
+        {movies.map(m => (
+          <div key={m._id} className="movie-card">
+            <h4>{m.title}</h4>
+            <button onClick={() => navigate(`/seat-selection/${m._id}`)}>Book Seats</button>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -14,18 +14,13 @@ export default function SeatGrid({ movieId, user }) {
     if (!movieId) return;
     let mounted = true;
 
-    axios
-      .get(`${API}/api/movies/${movieId}`, { withCredentials: true })
-      .then((r) => {
-        if (mounted) setMovie(r.data);
-      })
+    axios.get(`${API}/api/movies/${movieId}`, { withCredentials: true })
+      .then(r => { if (mounted) setMovie(r.data); })
       .catch(console.error);
 
     socketRef.current = io(API, { withCredentials: true });
     socketRef.current.emit("join-movie", { movieId });
-    socketRef.current.on("movie:update", (m) => {
-      if (m._id === movieId) setMovie(m);
-    });
+    socketRef.current.on("movie:update", (m) => { if (m._id === movieId) setMovie(m); });
 
     return () => {
       mounted = false;
@@ -36,47 +31,31 @@ export default function SeatGrid({ movieId, user }) {
   const reserveSeats = useCallback(async (seatIds) => {
     if (!seatIds.length) return;
     try {
-      await axios.post(
-        `${API}/api/reservations/reserve`,
-        { movieId, seatIds },
-        { withCredentials: true }
-      );
+      await axios.post(`${API}/api/reservations/reserve`, { movieId, seatIds }, { withCredentials: true });
     } catch (err) {
       console.error("Reserve failed:", err.response?.data || err.message);
     }
   }, [movieId]);
 
   function toggle(id) {
-    setSelected((s) =>
-      s.includes(id) ? s.filter((x) => x !== id) : [...s, id]
-    );
+    setSelected((s) => s.includes(id) ? s.filter((x) => x !== id) : [...s, id]);
   }
 
-  // Debounced auto-reserve when selected seats change
   useEffect(() => {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
     if (!selected.length) return;
 
-    debounceTimer.current = setTimeout(() => {
-      reserveSeats(selected);
-    }, 500); // debounce delay (ms)
-    
+    debounceTimer.current = setTimeout(() => reserveSeats(selected), 500);
     return () => clearTimeout(debounceTimer.current);
   }, [selected, reserveSeats]);
 
   async function book() {
     if (!selected.length) return alert("Select seats first");
     try {
-      await axios.post(
-        `${API}/api/reservations/book`,
-        { movieId, seatIds: selected },
-        { withCredentials: true }
-      );
+      await axios.post(`${API}/api/reservations/book`, { movieId, seatIds: selected }, { withCredentials: true });
       alert("Booked!");
       setSelected([]);
-      const m = await axios.get(`${API}/api/movies/${movieId}`, {
-        withCredentials: true,
-      });
+      const m = await axios.get(`${API}/api/movies/${movieId}`, { withCredentials: true });
       setMovie(m.data);
     } catch (err) {
       alert(err.response?.data?.error || err.message);
@@ -86,15 +65,9 @@ export default function SeatGrid({ movieId, user }) {
   async function cancel() {
     if (!selected.length) return alert("Select seats first");
     try {
-      await axios.post(
-        `${API}/api/reservations/cancel`,
-        { movieId, seatIds: selected },
-        { withCredentials: true }
-      );
+      await axios.post(`${API}/api/reservations/cancel`, { movieId, seatIds: selected }, { withCredentials: true });
       setSelected([]);
-      const m = await axios.get(`${API}/api/movies/${movieId}`, {
-        withCredentials: true,
-      });
+      const m = await axios.get(`${API}/api/movies/${movieId}`, { withCredentials: true });
       setMovie(m.data);
     } catch (err) {
       alert(err.response?.data?.error || err.message);
@@ -105,51 +78,35 @@ export default function SeatGrid({ movieId, user }) {
 
   return (
     <div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(8,48px)`,
-          gap: 8,
-        }}
-      >
+      <div className="seat-grid">
         {movie.seats.map((s) => {
           const id = s._id;
-          const reserved =
-            s.isReserved && s.reservedUntil && new Date(s.reservedUntil) > new Date();
-          const disabled =
-            s.isBooked || (reserved && s.reservedBy && s.reservedBy !== user.id);
+          const reserved = s.isReserved && s.reservedUntil && new Date(s.reservedUntil) > new Date();
+          const disabled = s.isBooked || (reserved && s.reservedBy && s.reservedBy !== user.id);
+          const bg = selected.includes(id)
+            ? "rgba(10, 159, 234, 1)"
+            : s.isBooked
+            ? "#777"
+            : reserved
+            ? "rgba(197, 128, 128, 1)"
+            : "rgba(166, 231, 146, 1)";
 
           return (
             <button
               key={id}
               disabled={disabled}
               onClick={() => toggle(id)}
-              style={{
-                background: selected.includes(id)
-                  ? "#6cf"
-                  : s.isBooked
-                  ? "#777"
-                  : reserved
-                  ? "#fdd"
-                  : "#efe",
-                height: 40,
-                width: 40,
-                borderRadius: 6,
-                cursor: disabled ? "not-allowed" : "pointer",
-              }}
+              className="seat"
+              style={{ background: bg }}
             >
-              {s.row}
-              {s.number}
+              {s.row}{s.number}
             </button>
           );
         })}
       </div>
-
-      <div style={{ marginTop: 10 }}>
+      <div style={{ marginTop: 16, textAlign: "center" }}>
         <button onClick={book}>Book</button>
-        <button onClick={cancel} style={{ marginLeft: 8 }}>
-          Cancel
-        </button>
+        <button onClick={cancel} style={{ marginLeft: 8, backgroundColor: "#e11d48" }}>Cancel</button>
       </div>
     </div>
   );
